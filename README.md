@@ -14,18 +14,18 @@ A comprehensive end-to-end data engineering pipeline built on modern cloud infra
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Architecture](#️-architecture)
-- [Data Flow](#-data-flow)
-- [Project Structure](#-project-structure)
-- [Technology Stack](#️-technology-stack)
-- [Features](#-features)
-- [Setup & Installation](#-setup--installation)
-- [Usage](#-usage)
-- [Data Models](#-data-models)
-- [Dashboard](#-dashboard)
-- [Machine Learning Pipeline](#-machine-learning-pipeline)
-- [Contributing](#-contributing)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Data Flow](#data-flow)
+- [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Setup & Installation](#setup--installation)
+- [Usage](#usage)
+- [Data Models](#data-models)
+- [Dashboard](#dashboard)
+- [Machine Learning Pipeline](#machine-learning-pipeline)
+- [Contributing](#contributing)
 
 ## 🎯 Overview
 
