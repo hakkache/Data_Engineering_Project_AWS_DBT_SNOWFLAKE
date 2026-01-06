@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Snowflake DBT Project - Architecture Documentation</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-database"></i>
+                <span>Data Engineering Project</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#overview" class="nav-link">Overview</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#data-flow" class="nav-link">Data Flow</a></li>
+                <li class="nav-item"><a href="#components" class="nav-link">Components</a></li>
+                <li class="nav-item"><a href="#tech-stack" class="nav-link">Tech Stack</a></li>
+                <li class="nav-item"><a href="#deployment" class="nav-link">Deployment</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Brazilian E-Commerce Data Engineering Pipeline</h1>
+            <p class="hero-subtitle">End-to-End Modern Data Architecture with AWS, Snowflake & DBT</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>100K+</h3>
+                    <p>Orders Processed</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>3-Tier</h3>
+                    <p>Medallion Architecture</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>20+</h3>
+                    <p>DBT Models</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>7</h3>
+                    <p>Analytics Pages</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Objective</h3>
+                    <p>Production-ready data engineering solution analyzing Brazilian E-Commerce data (2016-2018) from Kaggle/Olist, featuring automated data pipeline, transformation, and analytics.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Source</h3>
+                    <p>8 source tables with 100K+ orders from Brazilian e-commerce marketplace, stored in AWS S3 and processed through Snowflake data warehouse.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Processing</h3>
+                    <p>Medallion architecture (Bronze/Silver/Gold) with incremental loads, data quality tests, and business logic transformations using dbt.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Analytics</h3>
+                    <p>Interactive Streamlit dashboard with 7 pages covering sales, customer, product, payment, delivery, and review analytics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section bg-alt">
+        <div class="container">
+            <h2 class="section-title">System Architecture</h2>
+            <p class="section-description">Interactive visualization of the end-to-end data pipeline architecture</p>
+            
+            <div class="architecture-container">
+                <div class="architecture-diagram" id="architecture-diagram">
+                    <!-- Architecture will be rendered dynamically -->
+                </div>
+                
+                <div class="architecture-layers">
+                    <div class="layer-card" data-layer="ingestion">
+                        <div class="layer-header">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Data Ingestion</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Source:</strong> AWS S3 (Raw CSV Files)</p>
+                            <p><strong>Process:</strong> COPY INTO Snowflake</p>
+                            <p><strong>Schema:</strong> RAW</p>
+                            <ul>
+                                <li>8 source tables</li>
+                                <li>100K+ records</li>
+                                <li>Automated ingestion</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="layer-card" data-layer="bronze">
+                        <div class="layer-header">
+                            <i class="fas fa-database"></i>
+                            <h3>Bronze Layer</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Purpose:</strong> Staging & Raw Data</p>
+                            <p><strong>Materialization:</strong> Incremental</p>
+                            <p><strong>Schema:</strong> BRONZE</p>
+                            <ul>
+                                <li>Minimal transformations</li>
+                                <li>Data type casting</li>
+                                <li>Timestamp tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="layer-card" data-layer="silver">
+                        <div class="layer-header">
+                            <i class="fas fa-filter"></i>
+                            <h3>Silver Layer</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Purpose:</strong> Cleaned & Conformed</p>
+                            <p><strong>Materialization:</strong> Mixed (Table/Incremental)</p>
+                            <p><strong>Schema:</strong> SILVER</p>
+                            <ul>
+                                <li>Data quality rules</li>
+                                <li>Deduplication</li>
+                                <li>Surrogate keys</li>
+                                <li>Dimension/Fact separation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="layer-card" data-layer="gold">
+                        <div class="layer-header">
+                            <i class="fas fa-gem"></i>
+                            <h3>Gold Layer</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Purpose:</strong> Business Ready</p>
+                            <p><strong>Materialization:</strong> Table</p>
+                            <p><strong>Schema:</strong> GOLD</p>
+                            <ul>
+                                <li>Business aggregations</li>
+                                <li>One Big Table (OBT)</li>
+                                <li>Feature store for ML</li>
+                                <li>Analytics-ready views</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="layer-card" data-layer="ml">
+                        <div class="layer-header">
+                            <i class="fas fa-brain"></i>
+                            <h3>ML Pipeline</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Model:</strong> CatBoost Classifier</p>
+                            <p><strong>Purpose:</strong> Customer Behavior Prediction</p>
+                            <p><strong>Features:</strong> From Gold Layer</p>
+                            <ul>
+                                <li>Feature engineering</li>
+                                <li>Model training</li>
+                                <li>Prediction scoring</li>
+                                <li>Results storage</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="layer-card" data-layer="analytics">
+                        <div class="layer-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h3>Analytics Layer</h3>
+                        </div>
+                        <div class="layer-content">
+                            <p><strong>Framework:</strong> Streamlit</p>
+                            <p><strong>Pages:</strong> 7 Interactive Dashboards</p>
+                            <p><strong>Users:</strong> Analysts, Data Scientists, Executives</p>
+                            <ul>
+                                <li>Sales analytics</li>
+                                <li>Customer insights</li>
+                                <li>Product performance</li>
+                                <li>Payment trends</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Flow Section -->
+    <section id="data-flow" class="section">
+        <div class="container">
+            <h2 class="section-title">Data Flow Visualization</h2>
+            <p class="section-description">Click on each step to see detailed information</p>
+            
+            <div class="flow-container">
+                <div class="flow-step" data-step="1">
+                    <div class="flow-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>AWS S3</h3>
+                    <p>Raw CSV Files</p>
+                </div>
+                
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span class="arrow-label">COPY INTO</span>
+                </div>
+                
+                <div class="flow-step" data-step="2">
+                    <div class="flow-icon">
+                        <i class="fas fa-snowflake"></i>
+                    </div>
+                    <h3>Snowflake RAW</h3>
+                    <p>Landing Zone</p>
+                </div>
+                
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span class="arrow-label">dbt run</span>
+                </div>
+                
+                <div class="flow-step" data-step="3">
+                    <div class="flow-icon bronze-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Bronze Schema</h3>
+                    <p>Staging Layer</p>
+                </div>
+                
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span class="arrow-label">Transform</span>
+                </div>
+                
+                <div class="flow-step" data-step="4">
+                    <div class="flow-icon silver-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Silver Schema</h3>
+                    <p>Cleaned Data</p>
+                </div>
+                
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span class="arrow-label">Aggregate</span>
+                </div>
+                
+                <div class="flow-step" data-step="5">
+                    <div class="flow-icon gold-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Gold Schema</h3>
+                    <p>Business Layer</p>
+                </div>
+                
+                <div class="flow-branch">
+                    <div class="branch-line branch-ml"></div>
+                    <div class="branch-line branch-analytics"></div>
+                </div>
+                
+                <div class="flow-outputs">
+                    <div class="flow-step" data-step="6">
+                        <div class="flow-icon ml-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>ML Pipeline</h3>
+                        <p>Predictions</p>
+                    </div>
+                    
+                    <div class="flow-step" data-step="7">
+                        <div class="flow-icon analytics-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Dashboard</h3>
+                        <p>Analytics</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flow Details Panel -->
+            <div id="flow-details" class="flow-details">
+                <button class="close-btn" id="close-flow-details">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div id="flow-details-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="components" class="section bg-alt">
+        <div class="container">
+            <h2 class="section-title">System Components</h2>
+            
+            <div class="components-tabs">
+                <button class="tab-btn active" data-tab="dbt">DBT Models</button>
+                <button class="tab-btn" data-tab="snowflake">Snowflake</button>
+                <button class="tab-btn" data-tab="ml">ML Pipeline</button>
+                <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+            </div>
+            
+            <div class="tab-content active" id="dbt-content">
+                <h3>DBT Transformation Models</h3>
+                <div class="component-grid">
+                    <div class="component-card">
+                        <h4><i class="fas fa-database"></i> Bronze Models</h4>
+                        <ul>
+                            <li>bronze_OLIST_CUSTOMERS</li>
+                            <li>bronze_OLIST_ORDERS</li>
+                            <li>bronze_OLIST_ORDER_ITEMS</li>
+                            <li>bronze_OLIST_PAYMENTS</li>
+                            <li>bronze_OLIST_PRODUCTS</li>
+                            <li>bronze_OLIST_SELLERS</li>
+                            <li>bronze_OLIST_REVIEWS</li>
+                            <li>bronze_OLIST_GEOLOCATION</li>
+                        </ul>
+                        <p class="component-note">Incremental materialization with raw data ingestion</p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h4><i class="fas fa-filter"></i> Silver Models</h4>
+                        <p><strong>Dimensions:</strong></p>
+                        <ul>
+                            <li>dim_customers</li>
+                            <li>dim_products</li>
+                            <li>dim_sellers</li>
+                            <li>dim_date</li>
+                        </ul>
+                        <p><strong>Facts:</strong></p>
+                        <ul>
+                            <li>fact_orders</li>
+                            <li>fact_order_items</li>
+                            <li>fact_payments</li>
+                            <li>fact_reviews</li>
+                        </ul>
+                        <p class="component-note">Star schema with data quality checks</p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h4><i class="fas fa-gem"></i> Gold Models</h4>
+                        <ul>
+                            <li><strong>OBT:</strong> obt_orders (One Big Table)</li>
+                            <li><strong>Feature Store:</strong> customer_features</li>
+                            <li><strong>Aggregations:</strong> sales_summary</li>
+                            <li><strong>Metrics:</strong> kpi_dashboard</li>
+                        </ul>
+                        <p class="component-note">Business-ready analytics tables</p>
+                    </div>
+                </div>
+                
+                <div class="dbt-features">
+                    <h4>DBT Features Used:</h4>
+                    <div class="feature-tags">
+                        <span class="tag">Incremental Models</span>
+                        <span class="tag">Data Tests</span>
+                        <span class="tag">Macros</span>
+                        <span class="tag">Surrogate Keys</span>
+                        <span class="tag">Schema Tests</span>
+                        <span class="tag">Documentation</span>
+                        <span class="tag">Snapshots</span>
+                        <span class="tag">Seeds</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="snowflake-content">
+                <h3>Snowflake Data Warehouse</h3>
+                <div class="snowflake-structure">
+                    <div class="schema-tree">
+                        <div class="schema-node">
+                            <i class="fas fa-database"></i>
+                            <span>AWS_DBT_SNOWFLAKE_DB</span>
+                            <div class="schema-children">
+                                <div class="schema-child">
+                                    <i class="fas fa-folder"></i>
+                                    <span>RAW Schema</span>
+                                    <p>Landing zone for S3 data ingestion</p>
+                                </div>
+                                <div class="schema-child">
+                                    <i class="fas fa-folder"></i>
+                                    <span>BRONZE Schema</span>
+                                    <p>8 staging tables with minimal transformations</p>
+                                </div>
+                                <div class="schema-child">
+                                    <i class="fas fa-folder"></i>
+                                    <span>SILVER Schema</span>
+                                    <p>Dimensions & facts with quality checks</p>
+                                </div>
+                                <div class="schema-child">
+                                    <i class="fas fa-folder"></i>
+                                    <span>GOLD Schema</span>
+                                    <p>Business analytics & feature store</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="snowflake-features">
+                        <h4>Snowflake Capabilities Leveraged:</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Warehouse compute scaling</li>
+                            <li><i class="fas fa-check"></i> COPY INTO for bulk loading</li>
+                            <li><i class="fas fa-check"></i> Zero-copy cloning</li>
+                            <li><i class="fas fa-check"></i> Time travel</li>
+                            <li><i class="fas fa-check"></i> Role-based access control</li>
+                            <li><i class="fas fa-check"></i> Query optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="ml-content">
+                <h3>Machine Learning Pipeline</h3>
+                <div class="ml-pipeline">
+                    <div class="ml-stage">
+                        <div class="stage-number">1</div>
+                        <h4>Data Preparation</h4>
+                        <p>Extract features from Gold layer (OBT and feature store tables)</p>
+                        <code>load_training_data.py</code>
+                    </div>
+                    <div class="ml-arrow"><i class="fas fa-arrow-down"></i></div>
+                    
+                    <div class="ml-stage">
+                        <div class="stage-number">2</div>
+                        <h4>Feature Engineering</h4>
+                        <p>Create customer behavior features, RFM analysis, and aggregate metrics</p>
+                        <code>02_feature_engineering.ipynb</code>
+                    </div>
+                    <div class="ml-arrow"><i class="fas fa-arrow-down"></i></div>
+                    
+                    <div class="ml-stage">
+                        <div class="stage-number">3</div>
+                        <h4>Model Training</h4>
+                        <p>Train CatBoost classifier for customer segmentation/prediction</p>
+                        <code>train_model.py</code>
+                    </div>
+                    <div class="ml-arrow"><i class="fas fa-arrow-down"></i></div>
+                    
+                    <div class="ml-stage">
+                        <div class="stage-number">4</div>
+                        <h4>Predictions & Scoring</h4>
+                        <p>Generate predictions and store results back to Snowflake</p>
+                        <code>predict.py</code>
+                    </div>
+                </div>
+                
+                <div class="ml-details">
+                    <div class="ml-card">
+                        <h4>Model Details</h4>
+                        <ul>
+                            <li><strong>Algorithm:</strong> CatBoost</li>
+                            <li><strong>Task:</strong> Classification</li>
+                            <li><strong>Features:</strong> 50+ engineered features</li>
+                            <li><strong>Training Data:</strong> 100K+ customer records</li>
+                        </ul>
+                    </div>
+                    <div class="ml-card">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Customer churn prediction</li>
+                            <li>Customer lifetime value</li>
+                            <li>Product recommendation</li>
+                            <li>Delivery time estimation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="dashboard-content">
+                <h3>Interactive Analytics Dashboard</h3>
+                <div class="dashboard-preview">
+                    <div class="dashboard-page">
+                        <i class="fas fa-home"></i>
+                        <h4>Overview Page</h4>
+                        <p>High-level KPIs, trends, and executive summary</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Sales Analytics</h4>
+                        <p>Revenue trends, top products, seasonal patterns</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-users"></i>
+                        <h4>Customer Analytics</h4>
+                        <p>Customer segmentation, behavior, retention</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-box"></i>
+                        <h4>Product Analytics</h4>
+                        <p>Category performance, inventory insights</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-credit-card"></i>
+                        <h4>Payment Analytics</h4>
+                        <p>Payment methods, installments, fraud detection</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>Delivery Performance</h4>
+                        <p>Shipping times, delays, logistics optimization</p>
+                    </div>
+                    <div class="dashboard-page">
+                        <i class="fas fa-star"></i>
+                        <h4>Review Analytics</h4>
+                        <p>Customer satisfaction, ratings, sentiment</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-tech">
+                    <h4>Technologies:</h4>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Streamlit</span>
+                        <span class="tech-badge">Plotly</span>
+                        <span class="tech-badge">Pandas</span>
+                        <span class="tech-badge">Snowflake Connector</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech-stack" class="section">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            
+            <div class="tech-categories">
+                <div class="tech-category">
+                    <h3><i class="fas fa-cloud"></i> Cloud Infrastructure</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS">
+                            <p>Data storage & ingestion via S3</p>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white" alt="Snowflake">
+                            <p>Cloud data warehouse</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-exchange-alt"></i> Data Transformation</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white" alt="dbt">
+                            <p>Data build tool for transformations</p>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white" alt="SQL">
+                            <p>Query language</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-code"></i> Programming</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+                            <p>Primary programming language</p>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
+                            <p>Data manipulation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/CatBoost-FFCC00?style=for-the-badge&logo=catboost&logoColor=black" alt="CatBoost">
+                            <p>Gradient boosting algorithm</p>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="scikit-learn">
+                            <p>ML library</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-chart-bar"></i> Analytics & Visualization</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
+                            <p>Interactive dashboard framework</p>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white" alt="Plotly">
+                            <p>Data visualization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Section -->
+    <section id="deployment" class="section bg-alt">
+        <div class="container">
+            <h2 class="section-title">Deployment Guide</h2>
+            
+            <div class="deployment-steps">
+                <div class="deploy-step">
+                    <div class="step-icon">
+                        <i class="fas fa-cloud-download-alt"></i>
+                    </div>
+                    <h3>1. Clone Repository</h3>
+                    <div class="code-block">
+                        <code>git clone https://github.com/hakkache/Data_Engineering_Project_AWS_DBT_SNOWFLAKE.git</code>
+                    </div>
+                </div>
+                
+                <div class="deploy-step">
+                    <div class="step-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>2. Configure Snowflake</h3>
+                    <div class="code-block">
+                        <code>
+# Edit profiles.yml with your Snowflake credentials<br>
+account: your_account<br>
+user: your_username<br>
+password: your_password<br>
+warehouse: your_warehouse
+                        </code>
+                    </div>
+                </div>
+                
+                <div class="deploy-step">
+                    <div class="step-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>3. Setup Data Warehouse</h3>
+                    <div class="code-block">
+                        <code>
+# Create schemas in Snowflake<br>
+CREATE SCHEMA RAW;<br>
+CREATE SCHEMA BRONZE;<br>
+CREATE SCHEMA SILVER;<br>
+CREATE SCHEMA GOLD;
+                        </code>
+                    </div>
+                </div>
+                
+                <div class="deploy-step">
+                    <div class="step-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h3>4. Run DBT Models</h3>
+                    <div class="code-block">
+                        <code>
+cd aws_dbt_snowflake_project<br>
+dbt deps<br>
+dbt run<br>
+dbt test
+                        </code>
+                    </div>
+                </div>
+                
+                <div class="deploy-step">
+                    <div class="step-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>5. Launch Dashboard</h3>
+                    <div class="code-block">
+                        <code>
+cd dashboard<br>
+pip install -r requirements.txt<br>
+streamlit run app.py
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="deployment-notes">
+                <h3><i class="fas fa-info-circle"></i> Important Notes</h3>
+                <ul>
+                    <li>Ensure AWS S3 bucket is accessible with proper IAM roles</li>
+                    <li>Snowflake warehouse should have adequate compute resources</li>
+                    <li>Configure environment variables for sensitive credentials</li>
+                    <li>Run dbt tests to validate data quality after each transformation</li>
+                    <li>Monitor Snowflake credits usage for cost optimization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Project Information</h3>
+                    <p>Brazilian E-Commerce Data Engineering Pipeline</p>
+                    <p>Built with modern cloud data stack</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="https://github.com/hakkache/Data_Engineering_Project_AWS_DBT_SNOWFLAKE">GitHub Repository</a></li>
+                        <li><a href="#overview">Documentation</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#deployment">Deployment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Technologies</h3>
+                    <div class="footer-badges">
+                        <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white" alt="AWS">
+                        <img src="https://img.shields.io/badge/Snowflake-29B5E8?style=flat-square&logo=snowflake&logoColor=white" alt="Snowflake">
+                        <img src="https://img.shields.io/badge/dbt-FF694B?style=flat-square&logo=dbt&logoColor=white" alt="dbt">
+                        <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AWS Snowflake DBT Project. Documentation generated for GitHub Pages.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/architecture.js"></script>
+</body>
+</html>

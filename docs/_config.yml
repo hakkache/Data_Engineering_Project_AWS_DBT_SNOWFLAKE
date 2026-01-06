@@ -1,0 +1,26 @@
+# GitHub Pages Configuration
+
+# Build settings
+theme: null
+plugins: []
+
+# Exclude files from GitHub Pages build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+
+# Include specific files/folders
+include:
+  - css/
+  - js/
+  - assets/
+
+# Default layout (not used for static HTML)
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: none
