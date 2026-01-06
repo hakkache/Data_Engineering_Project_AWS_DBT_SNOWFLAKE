@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: staging
+    database: BRAZILIANECOMMERCE  
+    schema: staging
+    tables:
+      - name: olist_customers
+      - name: olist_geolocation
+      - name: olist_orders
+      - name: olist_order_items
+      - name: olist_order_payments
+      - name: olist_order_reviews
+      - name: olist_products
+      - name: olist_sellers
+      - name: product_category_name_translation
+

@@ -1,0 +1,13 @@
+aws_dbt_snowflake_project:
+  outputs:
+    dev:
+      account: ************
+      database: BRAZILIANECOMMERCE
+      password: *************
+      role: ACCOUNTADMIN
+      schema: dbt_schema
+      threads: 1
+      type: snowflake
+      user: HAKKACHE
+      warehouse: COMPUTE_WH
+  target: dev

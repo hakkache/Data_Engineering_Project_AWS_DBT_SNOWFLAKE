@@ -8,3 +8,18 @@ wheels/
 
 # Virtual environments
 .venv
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# IDE
+.vscode/
+
+# Sensitive files - DO NOT COMMIT (contains passwords)
+aws_dbt_snowflake_project/profiles.yml
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,1 @@
+SELECT * FROM {{source('staging', 'product_category_name_translation')}}
