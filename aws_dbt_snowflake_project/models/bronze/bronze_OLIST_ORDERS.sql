@@ -1,9 +1,7 @@
-{{config(materialized='incremental')}}
+{{ config(materialized='incremental') }}
 
-SELECT * FROM {{source('staging', 'olist_orders')}}
+SELECT * FROM {{ source('staging', 'olist_orders') }} src
 
 {% if is_incremental() %}
-
-    WHERE created_at > (SELECT MAX(created_at) FROM {{ this }})
-
+    WHERE src.created_at > (SELECT MAX(tgt.created_at) FROM {{ this }} tgt)
 {% endif %}

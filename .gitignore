@@ -1,25 +1,64 @@
 # Python-generated files
 __pycache__/
 *.py[oc]
+*.pyo
+*.pyd
 build/
 dist/
 wheels/
 *.egg-info
+.eggs/
+*.egg
 
 # Virtual environments
-.venv
+.venv/
+venv/
+env/
+ENV/
 
 # dbt
 target/
 dbt_packages/
 logs/
+*.log
+
+# Sensitive files - DO NOT COMMIT (contains passwords)
+.env
+*.env
+aws_dbt_snowflake_project/profiles.yml
+aws_dbt_snowflake_project/.user.yml
+ml_pipeline/.env
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ML Models & Data
+ml_pipeline/models/*.pkl
+ml_pipeline/models/*.joblib
+ml_pipeline/models/*.h5
+ml_pipeline/data/
+catboost_info/
 
 # IDE
 .vscode/
-
-# Sensitive files - DO NOT COMMIT (contains passwords)
-aws_dbt_snowflake_project/profiles.yml
+.idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+*.tmp
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Snowflake
+check_schema.py

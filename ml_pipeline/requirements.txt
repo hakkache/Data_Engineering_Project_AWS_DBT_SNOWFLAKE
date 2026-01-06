@@ -1,0 +1,45 @@
+# Core Data Science Libraries
+pandas==2.1.4
+numpy==1.26.2
+scipy==1.11.4
+
+# Snowflake Connector
+snowflake-connector-python==3.6.0
+snowflake-sqlalchemy==1.5.1
+
+# Machine Learning
+scikit-learn==1.3.2
+xgboost==2.0.3
+lightgbm==4.1.0
+catboost==1.2.2
+
+# Deep Learning (Optional)
+# tensorflow==2.15.0
+# torch==2.1.2
+
+# Model Interpretation
+shap==0.44.0
+lime==0.2.0.1
+
+# Visualization
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.18.0
+
+# Jupyter
+jupyter==1.0.0
+ipykernel==6.27.1
+ipywidgets==8.1.1
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1
+joblib==1.3.2
+tqdm==4.66.1
+
+# Model Tracking (Optional)
+# mlflow==2.9.2
+# wandb==0.16.2
+
+# Feature Store (Optional)
+# feast==0.35.0

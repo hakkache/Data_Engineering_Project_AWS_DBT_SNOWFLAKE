@@ -19,5 +19,31 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   aws_dbt_snowflake_project:
-    +materialized: table
-    +schema: bronze
+    bronze:
+      +materialized: incremental
+      +schema: bronze
+      +tags: ['bronze', 'raw']
+    silver:
+      +materialized: incremental
+      +schema: silver
+      dimensions:
+        +materialized: table  # Dimensions usually smaller, full refresh
+        +tags: ['silver', 'dimension']
+      facts:
+        +materialized: incremental
+        +tags: ['silver', 'fact']
+    gold:
+      +schema: gold
+      +tags: ['gold']
+      dimensions:
+        +materialized: incremental
+        +tags: ['gold', 'dimension']
+      facts:
+        +materialized: table
+        +tags: ['gold', 'fact']
+      obt:
+        +materialized: table
+        +tags: ['gold', 'obt', 'ml']
+      feature_store:
+        +materialized: table
+        +tags: ['gold', 'feature_store']
