@@ -8,6 +8,10 @@
 
 A comprehensive end-to-end data engineering pipeline built on modern cloud infrastructure, featuring data ingestion from AWS S3, transformation using dbt, warehousing in Snowflake, machine learning predictions, and interactive analytics dashboards.
 
+## 📚 Interactive Documentation
+
+**[🌐 View Interactive Documentation](https://hakkache.github.io/Data_Engineering_Project_AWS_DBT_SNOWFLAKE/)** - Explore the complete architecture, data flow, and system components through our interactive documentation site.
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
