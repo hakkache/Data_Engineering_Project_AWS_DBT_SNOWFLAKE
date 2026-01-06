@@ -147,7 +147,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: #666;'>
-        <p>Powered by dbt + Snowflake + Streamlit | Data Engineering Project</p>
+        <p>Powered by dbt + Snowflake + Streamlit | Data Engineering Project | Created by HAKKACHE</p>
     </div>
     """,
     unsafe_allow_html=True
