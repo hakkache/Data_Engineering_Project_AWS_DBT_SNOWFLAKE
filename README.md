@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 
-A comprehensive end-to-end data engineering pipeline built on modern cloud infrastructure, featuring data ingestion from AWS S3, transformation using dbt, warehousing in Snowflake, machine learning predictions, and interactive analytics dashboards.
+A comprehensive end-to-end data engineering pipeline built on modern cloud infrastructure, featuring data ingestion from AWS S3 , transformation using DBT, warehousing in Snowflake, machine learning predictions, and interactive analytics dashboards.
 
 ## 📋 Table of Contents
 
